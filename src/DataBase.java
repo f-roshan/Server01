@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.io.*;
-
 public class DataBase {
     private final HashMap<String, Controller> dataBase=new HashMap();
     static private DataBase singleTone;
@@ -67,5 +66,4 @@ class Controller{
         }
         return "invalid";
     }
-
 }
