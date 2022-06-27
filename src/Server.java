@@ -3,8 +3,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.http.WebSocket;
-
 class Server {
     static boolean isServerUp=true;
     public static void main(String[] args) throws IOException {
@@ -22,8 +20,6 @@ class Server {
         }
     }
 }
-
-
 class RequestHandler extends Thread{
     Socket socket;
     DataInputStream dis;
