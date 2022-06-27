@@ -1,6 +1,10 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.http.WebSocket;
+
 class Server {
     static boolean isServerUp=true;
     public static void main(String[] args) throws IOException {
@@ -14,7 +18,7 @@ class Server {
             while (isServerUp){
                 Socket socket=serverSocket.accept();
                 System.out.println("connected!");
-                RequestHandeler requestHandeler=new RequestHandeler(socket);
+                RequestHandler requestHandeler=new RequestHandler(socket);
                 requestHandeler.start();
             }
         }catch (IOException e){
@@ -24,9 +28,20 @@ class Server {
 }
 
 
-class RequestHandeler extends Thread{
+class RequestHandler extends Thread{
     Socket socket;
-    public RequestHandeler(Socket socket) {
-        this.socket=socket;
+    DataInputStream dis;
+    DataOutputStream dos;
+
+    public RequestHandler(Socket socket) throws IOException {
+        this.socket = socket;
+        dis = new DataInputStream(socket.getInputStream());
+        dos = new DataOutputStream(socket.getOutputStream());
+    }
+
+    @Override
+    public void run() {
+        String commend;
+
     }
 }
