@@ -10,11 +10,7 @@ class Server {
     public static void main(String[] args) throws IOException {
         try{
             ServerSocket serverSocket = new ServerSocket(1991);
-
-
-
-
-
+            DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\Client\\UsersInformation.txt"));
             while (isServerUp){
                 Socket socket=serverSocket.accept();
                 System.out.println("connected!");

@@ -3,7 +3,7 @@ import java.io.*;
 public class DataBase {
     private final HashMap<String, Controller> dataBase=new HashMap();
     static private DataBase singleTone;
-    static public DataBase getSingletone(){
+    static public DataBase getSingleTone(){
         if (singleTone==null){
             singleTone=new DataBase();
         }
