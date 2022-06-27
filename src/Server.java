@@ -9,6 +9,7 @@ class Server {
         try{
             ServerSocket serverSocket = new ServerSocket(1991);
             DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\Client\\UsersInformation.txt"));
+            DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\Client\\UserCommunities.txt"));
             while (isServerUp){
                 Socket socket=serverSocket.accept();
                 System.out.println("connected!");
