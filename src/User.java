@@ -1,7 +1,6 @@
 import java.util.HashMap;
 public class User{
   private final HashMap<String,String> data;
-
     public User(HashMap<String, String> data) {
         this.data = data;
     }
@@ -24,6 +23,7 @@ public class User{
         DataBase.getSingleTone().getController("UsersInformation").writeFile(data.get("userId")
                 + ": {, " + data.get("password") + ", null, null, null, null, null, }\n");
         DataBase.getSingleTone().getController("UserCommunities").writeFile(data.get("userId") + ": {, }\n");
+        DataBase.getSingleTone().getController("UserPosts").writeFile(data.get("userId") + ": {, }\n");
         DataBase.userCounter++;
         return "valid";
     }

@@ -7,14 +7,16 @@ class Server {
     static boolean isServerUp=true;
     public static void main(String[] args) throws IOException {
         try{
-            ServerSocket serverSocket = new ServerSocket(1991);
-            DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\Client\\UsersInformation.txt"));
-            DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\Client\\UserCommunities.txt"));
+            ServerSocket serverSocket = new ServerSocket(1999);
+            DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\user\\UsersInformation.txt"));
+            DataBase.getSingleTone().addDataBase("UsersFollowingCommunities", new Controller("D:\\DataBase\\user\\UsersFollowingCommunities.txt"));
+            DataBase.getSingleTone().addDataBase("UsersPosts", new Controller("D:\\DataBase\\user\\UsersPosts.txt"));
+            DataBase.getSingleTone().addDataBase("AllCommunities", new Controller("D:\\DataBase\\user\\AllCommunities.txt"));
             while (isServerUp){
                 Socket socket=serverSocket.accept();
                 System.out.println("connected!");
-                RequestHandler requestHandeler=new RequestHandler(socket);
-                requestHandeler.start();
+                RequestHandler requestHandler=new RequestHandler(socket);
+                requestHandler.start();
             }
         }catch (IOException e){
             System.out.println("System was not create");
