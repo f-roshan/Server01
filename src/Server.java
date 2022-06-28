@@ -11,7 +11,8 @@ class Server {
             DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\user\\UsersInformation.txt"));
             DataBase.getSingleTone().addDataBase("UsersFollowingCommunities", new Controller("D:\\DataBase\\user\\UsersFollowingCommunities.txt"));
             DataBase.getSingleTone().addDataBase("UsersPosts", new Controller("D:\\DataBase\\user\\UsersPosts.txt"));
-            DataBase.getSingleTone().addDataBase("AllCommunities", new Controller("D:\\DataBase\\user\\AllCommunities.txt"));
+            DataBase.getSingleTone().addDataBase("AllCommunities", new Controller("D:\\DataBase\\community\\AllCommunities.txt"));
+            DataBase.getSingleTone().addDataBase("AllCommunities", new Controller("D:\\DataBase\\community\\thisCommunityPosts.txt"));
             while (isServerUp){
                 Socket socket=serverSocket.accept();
                 System.out.println("connected!");

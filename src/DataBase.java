@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.io.*;
 public class DataBase {
     static int userCounter;
+    static int communityCounter;
     private final HashMap<String, Controller> dataBase=new HashMap();
     static private DataBase singleTone;
     static public DataBase getSingleTone(){

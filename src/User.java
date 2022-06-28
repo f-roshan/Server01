@@ -16,20 +16,24 @@ public class User{
                 return str;
             }
         }
-        return "invalid";
+        return "We already have this Id";
     }
 
     String signUp() {
+        String userId = doWeHaveThisId();
+        if (userId.equals("We already have this Id")){
+            return "invalid";
+        }
         DataBase.getSingleTone().getController("UsersInformation").writeFile(data.get("userId")
-                + ": {, " + data.get("password") + ", null, null, null, null, null, }\n");
-        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(data.get("userId") + ": {, }\n");
+                + ", " + data.get("password") + ", \n");
+        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(data.get("userId") + ", \n");
         DataBase.userCounter++;
         return "valid";
     }
 
     String signIn() {
         String userId = doWeHaveThisId();
-        if (userId.equals("invalid")) {
+        if (userId.equals("We already have this Id")) {
             return "invalid";
         } else if (!userId.split(", ")[1].equals(data.get("password"))) {
             return "invalid-match";
