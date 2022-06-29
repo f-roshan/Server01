@@ -33,6 +33,10 @@ public class Community {
         return "valid";
     }
 
+    String followCommunity(){
+
+    }
+
     String getName() {
         return doWeHaveThisCommunity().equals("We already have this Community") ? "invalid" : doWeHaveThisCommunity().split(", ")[0];
     }
