@@ -79,8 +79,6 @@ public class Community {
         return "unfollow Community";
     }
 
-
-
     String getName() {
         return doWeHaveThisCommunity().equals("We already have this Community") ? "invalid" : doWeHaveThisCommunity().split(", ")[0];
     }
