@@ -35,5 +35,4 @@ public class UsersPosts {
         return "invalid";
     }
 
-
 }

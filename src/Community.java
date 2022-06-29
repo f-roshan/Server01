@@ -83,4 +83,18 @@ public class Community {
         return "valid";
     }
 
+    String deletePost(){
+        String posts = DataBase.getSingleTone().getController("UsersPostsDetails").readFile();
+        String[] split = posts.split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : split) {
+            if (str.startsWith(data.get("id"))) {
+              continue;
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("AllCommunitiesDescriptions").writeFile(ans.toString(), true);
+        return "delete Post is done";
+    }
+
 }
