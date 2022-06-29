@@ -82,4 +82,5 @@ public class Community {
         DataBase.getSingleTone().getController("AllCommunitiesDescriptions").writeFile(ans.toString(), true);
         return "valid";
     }
+
 }

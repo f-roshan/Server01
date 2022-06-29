@@ -25,5 +25,15 @@ public class UsersPosts {
         return "valid";
     }
 
+    String getPostsDetails() {
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+            for (int i = 0; i < details.length ; i++) {
+                if (details[i].startsWith(data.get("id"))) {
+                    return details[i];
+                }
+            }
+        return "invalid";
+    }
+
 
 }
