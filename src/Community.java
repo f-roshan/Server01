@@ -75,15 +75,11 @@ public class Community {
         StringBuilder ans = new StringBuilder();
         for (String str : split) {
             if (str.startsWith(data.get("communityName"))) {
-                str = data.get("communityName") +", "+data.get("newDescription");
+                str = data.get("communityName") + ", " + data.get("newDescription");
             }
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("AllCommunitiesDescriptions").writeFile(ans.toString(), true);
         return "valid";
     }
-
-
-
-
 }
