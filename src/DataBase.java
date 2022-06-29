@@ -3,6 +3,7 @@ import java.io.*;
 public class DataBase {
     static int userCounter;
     static int communityCounter;
+    static int postIdGetter;
     private final HashMap<String, Controller> dataBase=new HashMap();
     static private DataBase singleTone;
     static public DataBase getSingleTone(){
