@@ -51,7 +51,7 @@ public class UsersPosts {
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
-        return "invalid";
+        return "liked";
     }
 
     String disLikeThisPost(){
@@ -70,8 +70,10 @@ public class UsersPosts {
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
-        return "invalid";
+        return "disliked";
     }
+
+
 
 
 

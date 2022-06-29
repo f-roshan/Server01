@@ -30,7 +30,6 @@ public class Community {
                 +", "+ data.get("admin") + ", "+DataBase.communityCounter + ", \n");
         DataBase.getSingleTone().getController("AllCommunitiesDescription").writeFile(data.get("communityName")
                 +", "+data.get("description")+", \n");
-        DataBase.getSingleTone().getController("thisCommunityPosts").writeFile(data.get("communityName") + ", \n");
         return "valid";
     }
 
