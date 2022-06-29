@@ -27,7 +27,7 @@ public class Community {
             return "invalid name";
         }
         DataBase.getSingleTone().getController("AllCommunities").writeFile(data.get("communityName")
-                +", "+ data.get("admin") + ", " + DataBase.communityCounter + ", \n");
+                +", "+ data.get("admin") + ", "+data.get("description")+", " + DataBase.communityCounter + ", \n");
         DataBase.getSingleTone().getController("thisCommunityPosts").writeFile(data.get("communityName") + ", \n");
         return "valid";
     }
@@ -66,6 +66,29 @@ public class Community {
         DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
         return "valid";
     }
+
+    String editDescription() {
+        String communities = DataBase.getSingleTone().getController("AllCommunities").readFile();
+        String[] split = communities.split("\n");
+        StringBuilder ans = new StringBuilder();
+
+        for (String str : split) {
+            if (str.startsWith(data.get("communityName"))) {
+                String[] update = str.split(", ");
+                update[2] = data.get("newDescription");
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < update.length; i++) {
+                    change.append(update[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
+        return "valid";
+    }
+
+
 
 
 }
