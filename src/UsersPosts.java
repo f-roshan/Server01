@@ -28,11 +28,51 @@ public class UsersPosts {
     String getPostsDetails() {
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
             for (int i = 0; i < details.length ; i++) {
-                if (details[i].startsWith(data.get("id"))) {
+                if (details[i].startsWith(data.get("postId"))) {
                     return details[i];
                 }
             }
         return "invalid";
     }
+
+    String likeThisPost(){
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            if (str.startsWith(data.get("postId"))) {
+                String[] update = str.split(", ");
+                update[4] = data.get("like");
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < update.length; i++) {
+                    change.append(update[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
+        return "invalid";
+    }
+
+    String disLikeThisPost(){
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            if (str.startsWith(data.get("postId"))) {
+                String[] update = str.split(", ");
+                update[5] = data.get("disLike");
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < update.length; i++) {
+                    change.append(update[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
+        return "invalid";
+    }
+
+
 
 }
