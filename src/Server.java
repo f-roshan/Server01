@@ -62,10 +62,10 @@ class RequestHandler extends Thread {
             e.printStackTrace();
         }
         if (command.equals(null)) {
-            command = "do nothing";
+            command = "other-";
         }
 
-        String[] split = command.split("_");
+        String[] split = command.split("-");
         HashMap<String, String> data;
         if (split[0].equals("user")) {
             User user;
@@ -207,6 +207,16 @@ class RequestHandler extends Thread {
                         break;
                     }
                 }
+        }else if (split[0].equals("Other")) {
+            System.out.println("other");
         }
+        try {
+            dis.close();
+            dos.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("done");
     }
 }
