@@ -26,7 +26,7 @@ public class User {
         String[] split = users.split("\n");
         for (String str : split) {
             if (str.split(", ")[1].equals(data.get("userEmail"))) {
-                return "_oldEmail";
+                return str;
             }
         }
         return "_newEmail";
@@ -57,10 +57,6 @@ public class User {
             return "_invalidMatch";
         }
         return "_valid";
-    }
-
-    String getAccount() {
-        return DataBase.getSingleTone().getController("UsersInformation").getRow(data.get("userId"));
     }
 
     String editId() {
@@ -118,8 +114,16 @@ public class User {
         return "_valid";
     }
 
-   /* String getCommunities(){
+   /* String editPassword() {
+    }*/
+
+    String getAccount() {
+        return DataBase.getSingleTone().getController("UsersInformation").getRow(data.get("userId"));
+    }
+
+  /* String getCommunities(){
 
     }*/
+
 }
 
