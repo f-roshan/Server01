@@ -13,9 +13,12 @@ public class UsersPosts {
     String AddPost() {
         String id = String.valueOf(DataBase.postIdGetter);
         DataBase.postIdGetter++;
+        String zero=String.valueOf(0);
+
+       //id_userId_CommunityName_Like_disLike_numberOfComments_date
         DataBase.getSingleTone().getController("UsersPostsDetails")
-                .writeFile(id + ", " + data.get("userId") + ", " + data.get("communityName") + ", " + data.get("numberOfLikes")
-                        + ", " + data.get("numberOfDisLikes") + ", " + data.get("numberOfComments") + " ," + data.get("date") + ", \n");
+                .writeFile(id + ", " + data.get("userId") + ", " + data.get("communityName") + ", " + zero
+                        + ", " + zero + ", " + zero + ", " + data.get("date") + ", \n");
 
         DataBase.getSingleTone().getController("UsersPostsTitle")
                 .writeFile(id + ", " + data.get("userId") + ", " + data.get("communityName") + ", " + data.get("title") + ", \n");
@@ -72,8 +75,14 @@ public class UsersPosts {
         StringBuilder ans = new StringBuilder();
         for (String str : details) {
             if (str.startsWith(data.get("postId"))) {
+
                 String[] update = str.split(", ");
-                update[4] = data.get("like");
+                String number= update[3];
+                int numberOfLikes=Integer.parseInt(number);
+                numberOfLikes++;
+                number= String.valueOf(numberOfLikes);
+                update[3]=number;
+
                 StringBuilder change = new StringBuilder();
                 for (int i = 0; i < update.length; i++) {
                     change.append(update[i]).append(", ");
@@ -83,7 +92,7 @@ public class UsersPosts {
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
-        return "liked";
+        return "_liked";
     }
 
     String disLikeThisPost(){
@@ -91,8 +100,14 @@ public class UsersPosts {
         StringBuilder ans = new StringBuilder();
         for (String str : details) {
             if (str.startsWith(data.get("postId"))) {
+
                 String[] update = str.split(", ");
-                update[5] = data.get("disLike");
+                String number = update[4];
+                int numberOfDislikes = Integer.parseInt(number);
+                numberOfDislikes ++;
+                number= String.valueOf(numberOfDislikes);
+                update[4] = number;
+
                 StringBuilder change = new StringBuilder();
                 for (int i = 0; i < update.length; i++) {
                     change.append(update[i]).append(", ");
@@ -102,7 +117,7 @@ public class UsersPosts {
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
-        return "disliked";
+        return "_liked";
     }
 
 

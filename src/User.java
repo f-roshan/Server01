@@ -170,7 +170,6 @@ public class User {
         return "_invalid";
     }
 
-    //String getPosts(){}
 
 }
 
