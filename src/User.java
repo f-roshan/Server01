@@ -170,6 +170,60 @@ public class User {
         return "_invalid";
     }
 
+    /*String getFeed(){
+
+    }*/
+
+    String likeThisPost(){
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            if (str.startsWith(data.get("postId"))) {
+
+                String[] update = str.split(", ");
+                String number= update[3];
+                int numberOfLikes=Integer.parseInt(number);
+                numberOfLikes++;
+                number= String.valueOf(numberOfLikes);
+                update[3]=number;
+
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < update.length; i++) {
+                    change.append(update[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
+        return "_liked";
+    }
+
+
+    String disLikeThisPost(){
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            if (str.startsWith(data.get("postId"))) {
+
+                String[] update = str.split(", ");
+                String number = update[4];
+                int numberOfDislikes = Integer.parseInt(number);
+                numberOfDislikes ++;
+                number= String.valueOf(numberOfDislikes);
+                update[4] = number;
+
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < update.length; i++) {
+                    change.append(update[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
+        return "_liked";
+    }
 
 }
 

@@ -78,6 +78,20 @@ public class Community {
     }
 
 
+    String getCommunitiesPosts(){
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+
+        for (String str : details) {
+            String[] split = str.split(", ");
+            if (split[2].equals(data.get("communityName"))){
+                ans.append(str).append(" \n");
+            }
+        }
+        return ans.toString();
+    }
+
+
     String deletePost(){
         String posts = DataBase.getSingleTone().getController("UsersPostsDetails").readFile();
         String[] split = posts.split("\n");
@@ -89,7 +103,7 @@ public class Community {
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("AllCommunitiesDescriptions").writeFile(ans.toString(), true);
-        return "delete Post is done";
+        return "_PostIsDeleted";
     }
 
 }
