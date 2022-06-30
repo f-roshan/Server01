@@ -16,32 +16,50 @@ public class User{
                 return str;
             }
         }
-        return "We already have this Id";
+        return "_newId";
+    }
+
+    String doWeHaveThisEmail() {
+        String users = DataBase.getSingleTone().getController("UsersInformation").readFile();
+        String[] split = users.split("\n");
+        for (String str : split) {
+            if (str.split(", ")[1].equals(data.get("userEmail"))) {
+                return "_oldEmail";
+            }
+        }
+        return "_newEmail";
     }
 
     String signUp() {
         String userId = doWeHaveThisId();
-        if (userId.equals("We already have this Id")){
-            return "invalid";
+        String userEmail = doWeHaveThisEmail();
+
+        if(!(userEmail.equals("_newEmail"))){
+            return "_invalid";
+        }
+        if (!(userId.equals("_newId"))){
+            return "_invalid";
         }
         DataBase.getSingleTone().getController("UsersInformation").writeFile(data.get("userId")
-                + ", " + data.get("password") + ", \n");
-        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(data.get("userId") + ", \n");
+                + ", " + data.get("userEmail")+", "+data.get("password") + ", \n");
+        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(data.get("userId") + ", " + data.get("userEmail")+ ", \n");
         DataBase.userCounter++;
-        return "valid";
+        return "_valid";
     }
 
     String signIn() {
         String userId = doWeHaveThisId();
-        if (userId.equals("We already have this Id")) {
-            return "invalid";
-        } else if (!userId.split(", ")[1].equals(data.get("password"))) {
-            return "invalid-match";
+        if (userId.equals("_newId")) {
+            return "_invalid";
+        } else if (!userId.split(", ")[2].equals(data.get("password"))) {
+            return "_invalidMatch";
         }
-        return "valid";
+        return "_valid";
     }
 
     String getAccount() {
         return DataBase.getSingleTone().getController("UsersInformation").getRow(data.get("userId"));
     }
+
+
 }
