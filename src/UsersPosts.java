@@ -22,6 +22,7 @@ public class UsersPosts {
         return "_valid";
     }
 
+
     String getPostsDetails() {
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
         for (int i = 0; i < details.length; i++) {
