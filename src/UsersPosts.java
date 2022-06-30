@@ -14,31 +14,31 @@ public class UsersPosts {
         String id = String.valueOf(DataBase.postIdGetter);
         DataBase.postIdGetter++;
         DataBase.getSingleTone().getController("UsersPostsDetails")
-                .writeFile(  id +", "+data.get("userId")+", " + data.get("communityName") + ", " + data.get("numberOfLikes")
-                        + ", " + data.get("numberOfDisLikes") + ", " + data.get("numberOfComments")+ " ," + data.get("date") + ", \n");
+                .writeFile(id + ", " + data.get("userId") + ", " + data.get("communityName") + ", " + data.get("numberOfLikes")
+                        + ", " + data.get("numberOfDisLikes") + ", " + data.get("numberOfComments") + " ," + data.get("date") + ", \n");
 
         DataBase.getSingleTone().getController("UsersPostsTitle")
-                .writeFile(  id +", " + data.get("userId")+", " + data.get("communityName") + ", " + data.get("title")+ ", \n");
+                .writeFile(id + ", " + data.get("userId") + ", " + data.get("communityName") + ", " + data.get("title") + ", \n");
 
         DataBase.getSingleTone().getController("UsersPostsCaption")
-                .writeFile(  id +", "+data.get("userId")+", " + data.get("communityName") + ", " + data.get("caption")+ ", \n");
+                .writeFile(id + ", " + data.get("userId") + ", " + data.get("communityName") + ", " + data.get("caption") + ", \n");
 
         return "_valid";
     }
 
     String getPostsDetails() {
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
-            for (int i = 0; i < details.length ; i++) {
-                if (details[i].startsWith(data.get("postId"))) {
-                    return details[i];
-                }
+        for (int i = 0; i < details.length; i++) {
+            if (details[i].startsWith(data.get("postId"))) {
+                return details[i];
             }
+        }
         return "_invalid";
     }
 
-    String getPostTitle(){
+    String getPostTitle() {
         String[] titles = DataBase.getSingleTone().getController("UsersPostsTitle").readFile().split("\n");
-        for (int i = 0; i < titles.length ; i++) {
+        for (int i = 0; i < titles.length; i++) {
             if (titles[i].startsWith(data.get("postId"))) {
                 return titles[i];
             }
@@ -46,9 +46,9 @@ public class UsersPosts {
         return "_invalid";
     }
 
-    String getPostCaption(){
+    String getPostCaption() {
         String[] captions = DataBase.getSingleTone().getController("UsersPostsCaption").readFile().split("\n");
-        for (int i = 0; i < captions.length ; i++) {
+        for (int i = 0; i < captions.length; i++) {
             if (captions[i].startsWith(data.get("postId"))) {
                 return captions[i];
             }
@@ -56,8 +56,16 @@ public class UsersPosts {
         return "_invalid";
     }
 
-    //String getPostComments()
-
+    String getPostComments(){
+        String[] comments = DataBase.getSingleTone().getController("Comments").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : comments) {
+            if (str.startsWith(data.get("postId"))) {
+                ans.append(str).append("\n");
+            }
+        }
+        return ans.toString();
+    }
 
     String likeThisPost(){
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");

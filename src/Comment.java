@@ -14,18 +14,9 @@ public class Comment {
     String addComment() {
         String id = String.valueOf(DataBase.commentIdGetter);
         DataBase.commentIdGetter++;
-        DataBase.getSingleTone().getController("Comments").writeFile( data.get("postId") + ", " + id + ", " + data.get("comment") + ", \n");
-        return "Comment is added.";
+        DataBase.getSingleTone().getController("Comments").writeFile(
+                data.get("postId") + ", " + id + ", " + data.get("userId") + ", " + data.get("comment") + ", \n");
+        return "_CommentIAdded.";
     }
 
-    String thisPostComments() {
-        String[] comments = DataBase.getSingleTone().getController("Comments").readFile().split("\n");
-        StringBuilder ans = new StringBuilder();
-        for (String str : comments) {
-            if (str.startsWith(data.get("postId"))) {
-                ans.append(str).append("\n");
-            }
-        }
-        return ans.toString();
-    }
 }
