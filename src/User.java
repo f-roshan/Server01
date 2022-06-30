@@ -146,9 +146,31 @@ public class User {
     }
 
 
-  /* String getCommunities(){
+    String getCommunities(){
+        String communities = DataBase.getSingleTone().getController("UsersFollowingCommunities").readFile();
+        String[] split = communities.split("\n");
 
-    }*/
+        for (String str : split) {
+            if (str.split(", ")[0].equals(data.get("userId"))) {
+                String[] update = str.split(", ");
+
+                if(update.length==1){
+                    return ", ";
+                }
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (int i = 1; i < update.length; i++) {
+                    stringBuilder.append(update[i]).append(", ");
+                }
+
+                return stringBuilder.toString();
+            }
+        }
+        return "_invalid";
+    }
+
+    //String getPosts(){}
 
 }
 
