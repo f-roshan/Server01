@@ -64,9 +64,12 @@ public class User {
     }
 
     String editId() {
+        String old=data.get("userId");
+        data.put("userId", data.get("newUserId"));
         if (!(doWeHaveThisId().equals("_newId"))) {
             return "_invalid";
         }
+        data.put("userId",old);
         String users = DataBase.getSingleTone().getController("UsersInformation").readFile();
         String[] split = users.split("\n");
         StringBuilder ans = new StringBuilder();
@@ -88,9 +91,13 @@ public class User {
     }
 
     String editEmail() {
+        String old = data.get("userEmail");
+        data.put("userEmail", data.get("newUserEmail"));
         if (!(doWeHaveThisEmail().equals("_newEmail"))) {
             return "_invalid";
         }
+        data.put("userEmail",old);
+
         String users = DataBase.getSingleTone().getController("UsersInformation").readFile();
         String[] split = users.split("\n");
         StringBuilder ans = new StringBuilder();
@@ -110,5 +117,9 @@ public class User {
         DataBase.getSingleTone().getController("UsersInformation").writeFile(ans.toString(), true);
         return "_valid";
     }
+
+   /* String getCommunities(){
+
+    }*/
 }
 
