@@ -11,8 +11,6 @@ class Server {
             DataBase.getSingleTone().addDataBase("UsersInformation", new Controller("D:\\DataBase\\user\\UsersInformation.txt"));
             DataBase.getSingleTone().addDataBase("UsersFollowingCommunities", new Controller("D:\\DataBase\\user\\UsersFollowingCommunities.txt"));
             DataBase.getSingleTone().addDataBase("UsersPostsDetails", new Controller("D:\\DataBase\\user\\UsersPostsDetails.txt"));
-            DataBase.getSingleTone().addDataBase("UsersPostsTitle", new Controller("D:\\DataBase\\user\\UsersPostsTitle.txt"));
-            DataBase.getSingleTone().addDataBase("UsersPostsCaption", new Controller("D:\\DataBase\\user\\UsersPostsCaption.txt"));
             DataBase.getSingleTone().addDataBase("Comments", new Controller("D:\\DataBase\\user\\Comments.txt"));
             DataBase.getSingleTone().addDataBase("AllCommunities", new Controller("D:\\DataBase\\community\\AllCommunities.txt"));
             DataBase.getSingleTone().addDataBase("AllCommunitiesDescription", new Controller("D:\\DataBase\\community\\AllCommunitiesDescription.txt"));

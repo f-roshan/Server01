@@ -98,12 +98,12 @@ public class Community {
         String[] split = posts.split("\n");
         StringBuilder ans = new StringBuilder();
         for (String str : split) {
-            if (str.startsWith(data.get("id"))) {
+            if (str.startsWith(data.get("postId"))) {
               continue;
             }
             ans.append(str).append("\n");
         }
-        DataBase.getSingleTone().getController("AllCommunitiesDescriptions").writeFile(ans.toString(), true);
+        DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
         return "_PostIsDeleted";
     }
 
