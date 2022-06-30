@@ -78,56 +78,6 @@ public class Community {
     }
 
 
-    String followCommunity(){
-        String communities = DataBase.getSingleTone().getController("UsersFollowingCommunities").readFile();
-        String[] split = communities.split("\n");
-        StringBuilder ans = new StringBuilder();
-        StringBuilder stringBuilder=new StringBuilder();
-
-        for (String str : split) {
-            if (str.startsWith(data.get("userId"))) {
-                stringBuilder.append(str);
-                stringBuilder.append(data.get("communityName")).append(", ");
-                str = stringBuilder.toString();
-            }
-            ans.append(str).append("\n");
-        }
-        DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
-        return "followCommunity";
-    }
-
-    String unFollowCommunity(){
-        String communities = DataBase.getSingleTone().getController("UsersFollowingCommunities").readFile();
-        String[] split = communities.split("\n");
-        StringBuilder ans = new StringBuilder();
-
-        for (String str : split) {
-            if (str.startsWith(data.get("userId"))){
-                String[] update = str.split(", ");
-                StringBuilder change = new StringBuilder();
-
-                if(update.length==1){
-                    return "invalid";
-                }
-
-                for (int i = 1; i < update.length; i++){
-                    if(update[i].equals(data.get("communityName"))){
-                        continue;
-                    }
-                        change.append(update[i]).append(", ");
-                }
-
-            }
-            ans.append(str).append("\n");
-        }
-        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(ans.toString(), true);
-        return "unfollow Community";
-    }
-
-
-
-
-
     String deletePost(){
         String posts = DataBase.getSingleTone().getController("UsersPostsDetails").readFile();
         String[] split = posts.split("\n");

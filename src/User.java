@@ -45,7 +45,7 @@ public class User {
         }
         DataBase.getSingleTone().getController("UsersInformation").writeFile(data.get("userId")
                 + ", " + data.get("userEmail") + ", " + data.get("password") + ", \n");
-        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(data.get("userId") + ", " + data.get("userEmail") + ", \n");
+        DataBase.getSingleTone().getController("UsersFollowingCommunities").writeFile(data.get("userId") +", \n");
         DataBase.userCounter++;
         return "_valid";
     }
