@@ -1,5 +1,6 @@
 import java.util.HashMap;
 public class Community {
+
     private final HashMap<String, String> data;
 
     public Community(HashMap<String, String> data) {

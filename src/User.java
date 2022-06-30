@@ -170,9 +170,17 @@ public class User {
         return "_invalid";
     }
 
-    /*String getFeed(){
-
-    }*/
+    String getFeed(){
+        String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            String[] split = str.split(", ");
+            if (split[1].equals(data.get("userId"))){
+                ans.append(str).append(" \n");
+            }
+        }
+        return ans.toString();
+    }
 
     String likeThisPost(){
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
