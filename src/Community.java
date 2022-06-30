@@ -10,6 +10,7 @@ public class Community {
         return data;
     }
 
+
     String doWeHaveThisCommunity(){
         String users = DataBase.getSingleTone().getController("AllCommunities").readFile();
         String[] split = users.split("\n");
@@ -18,20 +19,64 @@ public class Community {
                 return str;
             }
         }
-        return "We already have this Community";
+        return "_newCommunity";
     }
+
 
     String addCommunity() {
         String userId = doWeHaveThisCommunity();
-        if (userId.equals("We already have this Community")){
-            return "invalid name";
+        if (!(userId.equals("_newCommunityName"))){
+            return "_invalidName";
         }
         DataBase.getSingleTone().getController("AllCommunities").writeFile(data.get("communityName")
-                +", "+ data.get("admin") + ", "+DataBase.communityCounter + ", \n");
-        DataBase.getSingleTone().getController("AllCommunitiesDescription").writeFile(data.get("communityName")
-                +", "+data.get("description")+", \n");
+                +", "+ data.get("adminId") + ", " +data.get("description") + ", \n");
+        return "_valid";
+    }
+
+
+    String editName() {
+        String old=data.get("newCommunityName");
+        data.put("communityName", data.get("newCommunityName"));
+        if (!(doWeHaveThisCommunity().equals("_newCommunity"))) {
+            return "_invalid";
+        }
+        data.put("newCommunityName",old);
+
+        String communities = DataBase.getSingleTone().getController("AllCommunities").readFile();
+        String[] split = communities.split("\n");
+        StringBuilder ans = new StringBuilder();
+
+        for (String str : split) {
+            if (str.startsWith(data.get("communityName"))) {
+                String[] update = str.split(", ");
+                update[0] = data.get("newCommunityName");
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < update.length; i++) {
+                    change.append(update[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
+        return "_valid";
+    }
+
+
+    String editDescription() {
+        String communities = DataBase.getSingleTone().getController("AllCommunities").readFile();
+        String[] split = communities.split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : split) {
+            if (str.startsWith(data.get("communityName"))) {
+                str = data.get("communityName") + ", " + data.get("adminId") + ", "+ data.get("newDescription")+", ";
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
         return "valid";
     }
+
 
     String followCommunity(){
         String communities = DataBase.getSingleTone().getController("UsersFollowingCommunities").readFile();
@@ -79,54 +124,9 @@ public class Community {
         return "unfollow Community";
     }
 
-    String getName() {
-        return doWeHaveThisCommunity().equals("We already have this Community") ? "invalid" : doWeHaveThisCommunity().split(", ")[0];
-    }
 
-    String getAdmin() {
-        return doWeHaveThisCommunity().equals("We already have this Community") ? "invalid" : doWeHaveThisCommunity().split(", ")[1];
-    }
 
-    String editName() {
-        String communities = DataBase.getSingleTone().getController("AllCommunities").readFile();
-        String[] split = communities.split("\n");
-        StringBuilder ans = new StringBuilder();
 
-        for (String str : split) {
-            if (str.startsWith(data.get("newName"))){
-                return "invalid";
-            }
-        }
-
-        for (String str : split) {
-            if (str.startsWith(data.get("communityName"))) {
-                String[] update = str.split(", ");
-                update[0] = data.get("newName");
-                StringBuilder change = new StringBuilder();
-                for (int i = 0; i < update.length; i++) {
-                    change.append(update[i]).append(", ");
-                }
-                str = change.toString();
-            }
-            ans.append(str).append("\n");
-        }
-        DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
-        return "valid";
-    }
-
-    String editDescription() {
-        String communities = DataBase.getSingleTone().getController("AllCommunitiesDescription").readFile();
-        String[] split = communities.split("\n");
-        StringBuilder ans = new StringBuilder();
-        for (String str : split) {
-            if (str.startsWith(data.get("communityName"))) {
-                str = data.get("communityName") + ", " + data.get("newDescription");
-            }
-            ans.append(str).append("\n");
-        }
-        DataBase.getSingleTone().getController("AllCommunitiesDescriptions").writeFile(ans.toString(), true);
-        return "valid";
-    }
 
     String deletePost(){
         String posts = DataBase.getSingleTone().getController("UsersPostsDetails").readFile();
