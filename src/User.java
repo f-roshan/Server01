@@ -32,6 +32,7 @@ public class User {
         return "_newEmail";
     }
 
+
     String signUp() {
         String userId = doWeHaveThisId();
         String userEmail = doWeHaveThisEmail();
@@ -49,6 +50,7 @@ public class User {
         return "_valid";
     }
 
+
     String signIn() {
         String userId = doWeHaveThisId();
         if (userId.equals("_newId")) {
@@ -58,6 +60,7 @@ public class User {
         }
         return "_valid";
     }
+
 
     String editId() {
         String old=data.get("userId");
@@ -86,6 +89,7 @@ public class User {
         return "_valid";
     }
 
+
     String editEmail() {
         String old = data.get("userEmail");
         data.put("userEmail", data.get("newUserEmail"));
@@ -104,7 +108,7 @@ public class User {
                 update[1] = data.get("newEmail");
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 0; i < update.length; i++) {
-                    stringBuilder.append(update[0]).append(", ");
+                    stringBuilder.append(update[i]).append(", ");
                 }
                 str = stringBuilder.toString();
             }
@@ -114,12 +118,33 @@ public class User {
         return "_valid";
     }
 
-   /* String editPassword() {
-    }*/
+
+    String editPassword() {
+        String users = DataBase.getSingleTone().getController("UsersInformation").readFile();
+        String[] split = users.split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : split) {
+            if (str.startsWith(data.get("userId"))) {
+                String[] update = str.split(", ");
+                update[2] = data.get("newPassword");
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (int i = 0; i < update.length; i++) {
+                    stringBuilder.append(update[i]).append(", ");
+                }
+                str = stringBuilder.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("ClientAccounts").writeFile(ans.toString(), true);
+        return "_passwordChanged";
+    }
+
 
     String getAccount() {
         return DataBase.getSingleTone().getController("UsersInformation").getRow(data.get("userId"));
     }
+
 
   /* String getCommunities(){
 
