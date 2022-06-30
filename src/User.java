@@ -119,7 +119,7 @@ public class User {
     }
 
 
-    String editPassword() {
+    String editPassword(){
         String users = DataBase.getSingleTone().getController("UsersInformation").readFile();
         String[] split = users.split("\n");
         StringBuilder ans = new StringBuilder();

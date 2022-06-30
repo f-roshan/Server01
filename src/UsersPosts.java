@@ -10,7 +10,7 @@ public class UsersPosts {
         return data;
     }
 
-    String AddPost() {
+    String addPost() {
         String id = String.valueOf(DataBase.postIdGetter);
         DataBase.postIdGetter++;
         String zero=String.valueOf(0);

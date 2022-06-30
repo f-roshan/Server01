@@ -66,8 +66,8 @@ class RequestHandler extends Thread {
         }
 
         String[] split = command.split("_");
+        HashMap<String, String> data;
         if (split[0].equals("user")) {
-            HashMap<String, String> data;
             User user;
             UsersCommunities usersCommunities;
             UsersPosts usersPosts;
@@ -143,7 +143,7 @@ class RequestHandler extends Thread {
                     writer(user.likeThisComment());
                     break;
                 }
-                case "dislikeComment":{
+                case "dislikeComment": {
                     data = new HashMap<>(
                             Map.of("commentId",split[2])
                     );
@@ -151,30 +151,62 @@ class RequestHandler extends Thread {
                     writer(user.dislikeThisComment());
                     break;
                 }
+                case "addPost": {
+                    data = new HashMap<>(
+                            Map.of("userId",split[2],"communityName", split[3], "date", split[4],
+                                    "title", split[5], "caption", split[5])
+                    );
+                    usersPosts=new UsersPosts(data);
+                    writer(usersPosts.addPost());
+                    break;
+                }
+                case "profile": {
+                    data = new HashMap<>(
+                            Map.of("userId", split[2]));
+                    user=new User(data);
+                    writer(user.getAccount());
+                }
+                case "changeProfile": {
+                    data=new HashMap<>(
+                            Map.of("userId", split[2], "userEmail", split[3],"password",split[4], "newUserId",split[5], "newUserEmail", split[6], "newPassword",split[7])
+                    );
+                    user=new User(data);
+                    if(!(split[2].equals(split[5]))){
+                        user.editId();
+                    }
 
+                    if(!(split[3].equals(split[6]))){
+                        user.editEmail();
+                    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-        }else if(split[0].equals("community")){
-
-
-
-
-
-
-
+                    if(!(split[4].equals(split[7]))){
+                        user.editPassword();
+                    }
+                    break;
+                }
+            }}else if(split[0].equals("community")){
+            Community community;
+                switch (split[1]){
+                    case "addCommunity": {
+                      data = new HashMap<>(Map.of("communityName", split[2], "adminId", split[3], "description", split[4])
+                        );
+                      community=new Community(data);
+                      writer(community.addCommunity());
+                      break;
+                    }
+                    case "editName": {
+                        data = new HashMap<>(Map.of("communityName", split[2], "newCommunityName", split[3])
+                        );
+                        community = new Community(data);
+                        writer(community.editName());
+                        break;
+                    }
+                    case "editDescription": {
+                        data = new HashMap<>(Map.of("communityName", split[2], "newDescription",split[3]));
+                        community = new Community(data);
+                        break;
+                    }
+                }
         }
     }
 }
