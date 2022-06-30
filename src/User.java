@@ -170,6 +170,7 @@ public class User {
         return "_invalid";
     }
 
+
     String getFeed(){
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
         StringBuilder ans = new StringBuilder();
@@ -181,6 +182,7 @@ public class User {
         }
         return ans.toString();
     }
+
 
     String likeThisPost(){
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
@@ -231,6 +233,54 @@ public class User {
         }
         DataBase.getSingleTone().getController("UsersPostsDetails").writeFile(ans.toString(), true);
         return "_liked";
+    }
+
+
+    String likeThisComment(){
+        String[] details = DataBase.getSingleTone().getController("Comments").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            String[] split = str.split(", ");
+            if (split[1].equals(data.get("commentId"))) {
+                String number= split[2];
+                int numberOfLikes=Integer.parseInt(number);
+                numberOfLikes++;
+                number= String.valueOf(numberOfLikes);
+                split[2]=number;
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < split.length; i++) {
+                    change.append(split[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("Comments").writeFile(ans.toString(), true);
+        return "_liked";
+    }
+
+
+    String dislikeThisComment(){
+        String[] details = DataBase.getSingleTone().getController("Comments").readFile().split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : details) {
+            String[] split = str.split(", ");
+            if (split[1].equals(data.get("commentId"))){
+                String number= split[3];
+                int numberOfLikes=Integer.parseInt(number);
+                numberOfLikes++;
+                number= String.valueOf(numberOfLikes);
+                split[3]=number;
+                StringBuilder change = new StringBuilder();
+                for (int i = 0; i < split.length; i++) {
+                    change.append(split[i]).append(", ");
+                }
+                str = change.toString();
+            }
+            ans.append(str).append("\n");
+        }
+        DataBase.getSingleTone().getController("Comments").writeFile(ans.toString(), true);
+        return "_disliked";
     }
 
 }

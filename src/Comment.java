@@ -14,6 +14,7 @@ public class Comment {
     String addComment() {
         String id = String.valueOf(DataBase.commentIdGetter);
         DataBase.commentIdGetter++;
+        //postId_useId_numberOfLikes_numberOfDislikes
         DataBase.getSingleTone().getController("Comments").writeFile(
                 data.get("postId") + ", " + id + ", " + data.get("userId") + ", " + data.get("comment") + ", \n");
         numberOfComments();
