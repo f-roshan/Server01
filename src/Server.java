@@ -72,24 +72,24 @@ class RequestHandler extends Thread {
             UsersCommunities usersCommunities;
             UsersPosts usersPosts;
             Comment comment;
-            StringBuilder answer= new StringBuilder();
-            switch (split[1]){
+            Community community;
+            switch (split[0]){
                 case "signUp": {
-                    data = new HashMap<>(Map.of("userId", split[2], "userEmail", split[3], "password", split[4]));
+                    data = new HashMap<>(Map.of("userId", split[1], "userEmail", split[2], "password", split[3]));
                     user = new User(data);
                     writer(user.signUp());
                     break;
                 }
                 case "signIn": {
                     data = new HashMap<>(
-                            Map.of("userId", split[2], "password", split[3]));
+                            Map.of("userId", split[1], "password", split[2]));
                     user = new User(data);
                     writer(user.signIn());
                     break;
                 }
                 case "feed": {
                     data = new HashMap<>(
-                            Map.of("userId",split[2])
+                            Map.of("userId",split[1])
                     );
                     user=new User(data);
                     writer(user.getFeed());
@@ -97,7 +97,7 @@ class RequestHandler extends Thread {
                 }
                 case "postDetail": {
                     data = new HashMap<>(
-                            Map.of("userId",split[2])
+                            Map.of("userId",split[1])
                     );
                     usersPosts=new UsersPosts(data);
                     writer(usersPosts.getPostsDetails());
@@ -105,7 +105,7 @@ class RequestHandler extends Thread {
                 }
                 case "postComment": {
                     data = new HashMap<>(
-                            Map.of("userId",split[2])
+                            Map.of("userId",split[1])
                     );
                     usersPosts=new UsersPosts(data);
                     writer(usersPosts.getPostComments());
@@ -113,7 +113,7 @@ class RequestHandler extends Thread {
                 }
                 case "likePost":{
                     data = new HashMap<>(
-                            Map.of("PostId",split[2])
+                            Map.of("PostId",split[1])
                     );
                     user=new User(data);
                     writer(user.likeThisPost());
@@ -121,7 +121,7 @@ class RequestHandler extends Thread {
                 }
                 case "dislikePost":{
                     data = new HashMap<>(
-                            Map.of("PostId",split[2])
+                            Map.of("PostId",split[1])
                     );
                     user=new User(data);
                     writer(user.disLikeThisPost());
@@ -129,7 +129,7 @@ class RequestHandler extends Thread {
                 }
                 case "addComment": {
                     data = new HashMap<>(
-                            Map.of("postId", split[2], "userId", split[3], "comment", split[4])
+                            Map.of("postId", split[1], "userId", split[2], "comment", split[3])
                     );
                     comment=new Comment(data);
                     writer(comment.addComment());
@@ -137,7 +137,7 @@ class RequestHandler extends Thread {
                 }
                 case "likeComment":{
                     data = new HashMap<>(
-                            Map.of("commentId",split[2])
+                            Map.of("commentId",split[1])
                     );
                     user=new User(data);
                     writer(user.likeThisComment());
@@ -145,7 +145,7 @@ class RequestHandler extends Thread {
                 }
                 case "dislikeComment": {
                     data = new HashMap<>(
-                            Map.of("commentId",split[2])
+                            Map.of("commentId",split[1])
                     );
                     user=new User(data);
                     writer(user.dislikeThisComment());
@@ -153,8 +153,8 @@ class RequestHandler extends Thread {
                 }
                 case "addPost": {
                     data = new HashMap<>(
-                            Map.of("userId",split[2],"communityName", split[3], "date", split[4],
-                                    "title", split[5], "caption", split[5])
+                            Map.of("userId",split[1],"communityName", split[2], "date", split[3],
+                                    "title", split[4], "caption", split[5])
                     );
                     usersPosts=new UsersPosts(data);
                     writer(usersPosts.addPost());
@@ -162,52 +162,50 @@ class RequestHandler extends Thread {
                 }
                 case "profile": {
                     data = new HashMap<>(
-                            Map.of("userId", split[2]));
+                            Map.of("userId", split[1]));
                     user=new User(data);
                     writer(user.getAccount());
                 }
                 case "changeProfile": {
                     data=new HashMap<>(
-                            Map.of("userId", split[2], "userEmail", split[3],"password",split[4], "newUserId",split[5], "newUserEmail", split[6], "newPassword",split[7])
+                            Map.of("userId", split[1], "userEmail", split[2],"password",split[3], "newUserId",split[4], "newUserEmail", split[5], "newPassword",split[7])
                     );
                     user=new User(data);
-                    if(!(split[2].equals(split[5]))){
+                    if(!(split[1].equals(split[4]))){
                         user.editId();
                     }
 
-                    if(!(split[3].equals(split[6]))){
+                    if(!(split[2].equals(split[5]))){
                         user.editEmail();
                     }
 
-                    if(!(split[4].equals(split[7]))){
+                    if(!(split[3].equals(split[6]))){
                         user.editPassword();
                     }
                     break;
                 }
-            }}else if(split[0].equals("community")){
-            Community community;
-                switch (split[1]){
                     case "addCommunity": {
-                      data = new HashMap<>(Map.of("communityName", split[2], "adminId", split[3], "description", split[4])
+                      data = new HashMap<>(Map.of("communityName", split[1], "adminId", split[2], "description", split[3])
                         );
                       community=new Community(data);
                       writer(community.addCommunity());
                       break;
                     }
                     case "editName": {
-                        data = new HashMap<>(Map.of("communityName", split[2], "newCommunityName", split[3])
+                        data = new HashMap<>(Map.of("communityName", split[1], "newCommunityName", split[2])
                         );
                         community = new Community(data);
                         writer(community.editName());
                         break;
                     }
                     case "editDescription": {
-                        data = new HashMap<>(Map.of("communityName", split[2], "newDescription",split[3]));
+                        data = new HashMap<>(Map.of("communityName", split[1], "newDescription",split[2]));
                         community = new Community(data);
                         break;
                     }
                 }
-        }else if (split[0].equals("Other")) {
+        }
+        if (split[0].equals("Other")) {
             System.out.println("other");
         }
         try {
