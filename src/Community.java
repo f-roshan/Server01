@@ -31,6 +31,7 @@ public class Community {
         }
         DataBase.getSingleTone().getController("AllCommunities").writeFile(data.get("communityName")
                 +", "+ data.get("adminId") + ", " +data.get("description") + ", \n");
+        DataBase.getSingleTone().getController("NamesOfCommunities").writeFile(data.get("communityName")+", \n");
         return "_valid";
     }
 
@@ -75,7 +76,7 @@ public class Community {
             ans.append(str).append("\n");
         }
         DataBase.getSingleTone().getController("AllCommunities").writeFile(ans.toString(), true);
-        return "valid";
+        return "_valid";
     }
 
 
@@ -107,4 +108,34 @@ public class Community {
         return "_PostIsDeleted";
     }
 
+    String getAllCommunities(){
+        String communities = DataBase.getSingleTone().getController("NamesOfCommunities").readFile();
+        if(communities.equals(null)){
+            return "_null";
+        }
+        String[] split = communities.split("\n");
+        StringBuilder ans = new StringBuilder();
+        for (String str : split){
+            ans.append(str).append(", ");
+        }
+        return ans.toString();
+    }
+
+    String communitySearch(){
+        String communities = getAllCommunities();
+        if(communities.equals("_null")){
+            return "_null";
+        }
+        StringBuilder ans = new StringBuilder();
+        String[] split = communities.split(", ");
+        for (String str : split){
+            if(str.startsWith(data.get("searchKey"))){
+                ans.append(str).append(", ");
+            }
+        }
+        if(ans.equals(null)){
+            return "_null";
+        }
+        return ans.toString();
+    }
 }
