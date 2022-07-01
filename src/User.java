@@ -140,7 +140,6 @@ public class User {
         return "_passwordChanged";
     }
 
-
     String getAccount() {
         return DataBase.getSingleTone().getController("UsersInformation").getRow(data.get("userId"));
     }
@@ -172,14 +171,27 @@ public class User {
 
 
     String getFeed(){
+        String myCommunities = getCommunities();
+        if(myCommunities.equals(", ")){
+            return ", ";
+        }
+        if(myCommunities.equals("_invalid")){
+            return "_invalid";
+        }
+        String[] community = myCommunities.split(", ");
         String[] details = DataBase.getSingleTone().getController("UsersPostsDetails").readFile().split("\n");
         StringBuilder ans = new StringBuilder();
+
         for (String str : details) {
             String[] split = str.split(", ");
-            if (split[1].equals(data.get("userId"))){
-                ans.append(str).append(" \n");
+            for (String com : community){
+                if (split[2].equals(data.get(com))){
+                    ans.append(str).append(" \n");
+                    break;
+                }
             }
         }
+
         return ans.toString();
     }
 
@@ -239,7 +251,7 @@ public class User {
     String likeThisComment(){
         String[] details = DataBase.getSingleTone().getController("Comments").readFile().split("\n");
         StringBuilder ans = new StringBuilder();
-        for (String str : details) {
+          for (String str : details) {
             String[] split = str.split(", ");
             if (split[1].equals(data.get("commentId"))) {
                 String number= split[2];
