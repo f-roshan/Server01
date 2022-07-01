@@ -85,15 +85,21 @@ class RequestHandler extends Thread {
         if (command.equals(null)) {
             command = "other-";
         }
-
         String[] split = command.split("-");
+        if (split[0].equals("Other")) {
+            System.out.println("other");
+            return;
+        }
+
+
         HashMap<String, String> data;
-        if (split[0].equals("user")) {
-            User user;
-            UsersCommunities usersCommunities;
-            UsersPosts usersPosts;
-            Comment comment;
-            Community community;
+        User user;
+        UsersCommunities usersCommunities;
+        UsersPosts usersPosts;
+        Comment comment;
+        Community community;
+
+
             switch (split[0]){
                 case "signUp": {
                     data = new HashMap<>(Map.of("userId", split[1], "userEmail", split[2], "password", split[3]));
@@ -188,23 +194,23 @@ class RequestHandler extends Thread {
                     writer(user.getAccount());
                 }
                 case "changeProfile": {
-                    data=new HashMap<>(
-                            Map.of("userId", split[1], "userEmail", split[2],"password",split[3], "newUserId",split[4], "newUserEmail", split[5], "newPassword",split[7])
+                    data = new HashMap<>(
+                            Map.of("userId", split[1], "userEmail", split[2], "password", split[3], "newUserId", split[4], "newUserEmail", split[5], "newPassword", split[7])
                     );
-                    user=new User(data);
-                    if(!(split[1].equals(split[4]))){
+                    user = new User(data);
+                    if (!(split[1].equals(split[4]))) {
                         user.editId();
                     }
 
-                    if(!(split[2].equals(split[5]))){
+                    if (!(split[2].equals(split[5]))) {
                         user.editEmail();
                     }
 
-                    if(!(split[3].equals(split[6]))){
+                    if (!(split[3].equals(split[6]))) {
                         user.editPassword();
                     }
                     break;
-                }
+                    }
                     case "addCommunity": {
                       data = new HashMap<>(Map.of("communityName", split[1], "adminId", split[2], "description", split[3])
                         );
@@ -224,11 +230,13 @@ class RequestHandler extends Thread {
                         community = new Community(data);
                         break;
                     }
+                    case "communitySearch": {
+                        data = new HashMap<>(Map.of("searchKey", split[1]));
+                        community = new Community(data);
+                        break;
+                    }
                 }
-        }
-        if (split[0].equals("Other")) {
-            System.out.println("other");
-        }
+
         try {
             dis.close();
             dos.close();
