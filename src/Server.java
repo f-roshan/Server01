@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 class Server {
     static boolean isServerUp=true;
@@ -42,9 +43,17 @@ class RequestHandler extends Thread {
     void writer(String write) {
         if (write != null && !write.isEmpty()) {
             try {
-                dos.writeUTF(write);
+                dos.writeBytes(write);
+                dos.flush();
+
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    dos.close();
+                    dis.close();
+                    socket.close();
+                }catch (IOException o){
+                    o.printStackTrace();
+                }
             }
             return;
         }
@@ -56,10 +65,22 @@ class RequestHandler extends Thread {
         String command = "";
 
         try {
-            command = dis.readLine();
+            StringBuilder request=new StringBuilder();
+            int c= dis.read();
+            while ((char)c != ','){
+                request.append((char) c);
+            }
+            Scanner sc = new Scanner(request.toString());
+            command = sc.nextLine();
             System.out.println("new command received: " + command);
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                dos.close();
+                dis.close();
+                socket.close();
+            }catch (IOException o){
+                o.printStackTrace();
+            }
         }
         if (command.equals(null)) {
             command = "other-";
